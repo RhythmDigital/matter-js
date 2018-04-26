@@ -39,6 +39,7 @@ var Common = require('../core/Common');
      * @param {number} timestamp
      */
     Pairs.update = function(pairs, collisions, timestamp) {
+        
         var pairsList = pairs.list,
             pairsTable = pairs.table,
             collisionStart = pairs.collisionStart,
@@ -55,7 +56,16 @@ var Common = require('../core/Common');
         collisionEnd.length = 0;
         collisionActive.length = 0;
 
-        for (i = 0; i < collisions.length; i++) {
+        var iterations = Math.min(300,collisions.length);
+        var collisionsToCheck = [];
+
+        var checksToRemove = collisions.length-iterations;
+        for (var j =0; j < checksToRemove; j++) {
+            const next = Math.floor(Math.random() * collisions.length);
+            collisions.splice(j, 1);        
+        }
+
+        for (i = 0; i < iterations; i++) {
             collision = collisions[i];
 
             if (collision.collided) {
@@ -105,6 +115,8 @@ var Common = require('../core/Common');
      * @param {number} timestamp
      */
     Pairs.removeOld = function(pairs, timestamp) {
+
+
         var pairsList = pairs.list,
             pairsTable = pairs.table,
             indexesToRemove = [],
@@ -118,10 +130,10 @@ var Common = require('../core/Common');
             collision = pair.collision;
             
             // never remove sleeping pairs
-            if (collision.bodyA.isSleeping || collision.bodyB.isSleeping) {
-                pair.timeUpdated = timestamp;
-                continue;
-            }
+            // if (collision.bodyA.isSleeping || collision.bodyB.isSleeping) {
+            //     pair.timeUpdated = timestamp;
+            //     continue;
+            // }
 
             // if pair is inactive for too long, mark it to be removed
             if (timestamp - pair.timeUpdated > Pairs._pairMaxIdleLife) {

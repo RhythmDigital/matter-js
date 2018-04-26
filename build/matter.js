@@ -2695,14 +2695,15 @@ var Common = _dereq_('../core/Common');
         collisionEnd.length = 0;
         collisionActive.length = 0;
 
-        var iterations = Math.min(300,collisions.length);
-        var collisionsToCheck = [];
-
+        var iterations = Math.min(400,collisions.length);
+       
         var checksToRemove = collisions.length-iterations;
         for (var j =0; j < checksToRemove; j++) {
             const next = Math.floor(Math.random() * collisions.length);
-            collisions.splice(j, 1);        
+            collisions.splice(next, 1);        
         }
+
+        // if(collisions.length  > 0) console.log(collisions.length);
 
         for (i = 0; i < iterations; i++) {
             collision = collisions[i];

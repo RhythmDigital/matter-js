@@ -56,7 +56,7 @@ var Common = require('../core/Common');
         collisionEnd.length = 0;
         collisionActive.length = 0;
 
-        var iterations = Math.min(600,collisions.length);
+        var iterations = Math.min(500,collisions.length);
 
         var checksToRemove = collisions.length-iterations;
         for (var j =0; j < checksToRemove; j++) {

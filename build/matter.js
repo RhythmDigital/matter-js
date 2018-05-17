@@ -2703,7 +2703,7 @@ var Common = _dereq_('../core/Common');
             collisions.splice(next, 1);
         }
 
-        if(collisions.length  > 0) console.log(collisions.length);
+        // if(collisions.length  > 0) console.log(collisions.length);
 
         for (i = 0; i < iterations; i++) {
             collision = collisions[i];

@@ -56,19 +56,17 @@ var Common = require('../core/Common');
         collisionEnd.length = 0;
         collisionActive.length = 0;
 
-        // var iterations = Math.min(400,collisions.length);
+        var iterations = Math.min(600,collisions.length);
 
-        console.log('ok!');
-       
-        // var checksToRemove = collisions.length-iterations;
-        // for (var j =0; j < checksToRemove; j++) {
-        //     const next = Math.floor(Math.random() * collisions.length);
-        //     collisions.splice(next, 1);        
-        // }
+        var checksToRemove = collisions.length-iterations;
+        for (var j =0; j < checksToRemove; j++) {
+            const next = Math.floor(Math.random() * collisions.length);
+            collisions.splice(next, 1);
+        }
 
-        // if(collisions.length  > 0) console.log(collisions.length);w
+        if(collisions.length  > 0) console.log(collisions.length);
 
-        for (i = 0; i < collisions.length; i++) {
+        for (i = 0; i < iterations; i++) {
             collision = collisions[i];
 
             if (collision.collided) {

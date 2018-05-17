@@ -4882,6 +4882,8 @@ var Body = _dereq_('../body/Body');
 
         var engine = Common.extend(defaults, options);
 
+        console.log(engine);
+
         // @deprecated
         if (element || engine.render) {
             var renderDefaults = {

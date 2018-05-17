@@ -66,40 +66,40 @@ var Common = require('../core/Common');
         //     collisions.splice(next, 1);        
         // }
 
-        // if(collisions.length  > 0) console.log(collisions.length);
+        // if(collisions.length  > 0) console.log(collisions.length);w
 
-        // for (i = 0; i < iterations; i++) {
-        collision = collisions[i];
+        for (i = 0; i < collisions.length; i++) {
+            collision = collisions[i];
 
-        if (collision.collided) {
-            pairId = Pair.id(collision.bodyA, collision.bodyB);
-            activePairIds.push(pairId);
+            if (collision.collided) {
+                pairId = Pair.id(collision.bodyA, collision.bodyB);
+                activePairIds.push(pairId);
 
-            pair = pairsTable[pairId];
+                pair = pairsTable[pairId];
 
-            if (pair) {
-                // pair already exists (but may or may not be active)
-                if (pair.isActive) {
-                    // pair exists and is active
-                    collisionActive.push(pair);
+                if (pair) {
+                    // pair already exists (but may or may not be active)
+                    if (pair.isActive) {
+                        // pair exists and is active
+                        collisionActive.push(pair);
+                    } else {
+                        // pair exists but was inactive, so a collision has just started again
+                        collisionStart.push(pair);
+                    }
+
+                    // update the pair
+                    Pair.update(pair, collision, timestamp);
                 } else {
-                    // pair exists but was inactive, so a collision has just started again
+                    // pair did not exist, create a new pair
+                    pair = Pair.create(collision, timestamp);
+                    pairsTable[pairId] = pair;
+
+                    // push the new pair
                     collisionStart.push(pair);
+                    pairsList.push(pair);
                 }
-
-                // update the pair
-                Pair.update(pair, collision, timestamp);
-            } else {
-                // pair did not exist, create a new pair
-                pair = Pair.create(collision, timestamp);
-                pairsTable[pairId] = pair;
-
-                // push the new pair
-                collisionStart.push(pair);
-                pairsList.push(pair);
             }
         }
-        // }
 
         // deactivate previously active pairs that are now inactive
         for (i = 0; i < pairsList.length; i++) {

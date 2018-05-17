@@ -1,5 +1,5 @@
 /**
-* matter-js 0.14.1 by @liabru 2018-04-26
+* matter-js 0.15.0 by @liabru 2018-05-17
 * http://brm.io/matter-js/
 * License MIT
 */
@@ -2695,48 +2695,50 @@ var Common = _dereq_('../core/Common');
         collisionEnd.length = 0;
         collisionActive.length = 0;
 
-        var iterations = Math.min(400,collisions.length);
+        // var iterations = Math.min(400,collisions.length);
+
+        console.log('ok!');
        
-        var checksToRemove = collisions.length-iterations;
-        for (var j =0; j < checksToRemove; j++) {
-            const next = Math.floor(Math.random() * collisions.length);
-            collisions.splice(next, 1);        
-        }
+        // var checksToRemove = collisions.length-iterations;
+        // for (var j =0; j < checksToRemove; j++) {
+        //     const next = Math.floor(Math.random() * collisions.length);
+        //     collisions.splice(next, 1);        
+        // }
 
         // if(collisions.length  > 0) console.log(collisions.length);
 
-        for (i = 0; i < iterations; i++) {
-            collision = collisions[i];
+        // for (i = 0; i < iterations; i++) {
+        collision = collisions[i];
 
-            if (collision.collided) {
-                pairId = Pair.id(collision.bodyA, collision.bodyB);
-                activePairIds.push(pairId);
+        if (collision.collided) {
+            pairId = Pair.id(collision.bodyA, collision.bodyB);
+            activePairIds.push(pairId);
 
-                pair = pairsTable[pairId];
-                
-                if (pair) {
-                    // pair already exists (but may or may not be active)
-                    if (pair.isActive) {
-                        // pair exists and is active
-                        collisionActive.push(pair);
-                    } else {
-                        // pair exists but was inactive, so a collision has just started again
-                        collisionStart.push(pair);
-                    }
+            pair = pairsTable[pairId];
 
-                    // update the pair
-                    Pair.update(pair, collision, timestamp);
+            if (pair) {
+                // pair already exists (but may or may not be active)
+                if (pair.isActive) {
+                    // pair exists and is active
+                    collisionActive.push(pair);
                 } else {
-                    // pair did not exist, create a new pair
-                    pair = Pair.create(collision, timestamp);
-                    pairsTable[pairId] = pair;
-
-                    // push the new pair
+                    // pair exists but was inactive, so a collision has just started again
                     collisionStart.push(pair);
-                    pairsList.push(pair);
                 }
+
+                // update the pair
+                Pair.update(pair, collision, timestamp);
+            } else {
+                // pair did not exist, create a new pair
+                pair = Pair.create(collision, timestamp);
+                pairsTable[pairId] = pair;
+
+                // push the new pair
+                collisionStart.push(pair);
+                pairsList.push(pair);
             }
         }
+        // }
 
         // deactivate previously active pairs that are now inactive
         for (i = 0; i < pairsList.length; i++) {
@@ -4882,8 +4884,6 @@ var Body = _dereq_('../body/Body');
 
         var engine = Common.extend(defaults, options);
 
-        console.log(engine);
-
         // @deprecated
         if (element || engine.render) {
             var renderDefaults = {
@@ -5459,7 +5459,7 @@ var Common = _dereq_('./Common');
      * @readOnly
      * @type {String}
      */
-    Matter.version = '0.14.1';
+    Matter.version = '0.15.0';
 
     /**
      * A list of plugin dependencies to be installed. These are normally set and installed through `Matter.use`.
